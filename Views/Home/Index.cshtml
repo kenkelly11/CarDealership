@@ -1,0 +1,99 @@
+﻿
+@model CarDealership.Models.Home.IndexPageViewModel
+
+@{
+    ViewBag.Title = "Guild Cars Dealership";
+}
+
+<!-- stupid slideshow -->
+<div class="slideshow-container">
+    @{
+        var list = Model.Specials.ToList();
+        foreach (var special in list)
+        {
+            <div class="mySlides">
+                <img src="~/Images/cardealershiplogo.jpg" style="width:100%">
+                <a href="Home\Specials\" class="specialsLink">@special.Title</a><br />
+                <span class="lead"><a href="Home\Specials\" class="specialsLink">@special.SpecialDetails</a></span>
+            </div>
+
+        }
+    }
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+</div>
+
+<!-- Indicators -->
+<div style="text-align:center">
+    <span class="dot" onclick="currentSlide(1)"></span>
+    <span class="dot" onclick="currentSlide(2)"></span>
+    <span class="dot" onclick="currentSlide(3)"></span>
+</div>
+
+
+<div class="row">
+    @{
+        var colCounter = 1;
+        var featuredCars = Model.FeaturedCars.ToList();
+        var carCount = featuredCars.Count();
+        var colWidth = 0;
+
+        if (carCount < 4)
+        {
+            if (carCount == 3)
+            {
+                colWidth = 4;
+            }
+            else if
+             (carCount == 2)
+            {
+                colWidth = 6;
+            }
+            else
+            {
+                colWidth = 12;
+            }
+        }
+        else
+        {
+            colWidth = 3;
+        }
+
+        foreach (var car in featuredCars)
+        {
+            // starts a new row
+            if (colCounter % 4 == 0)
+            {
+                <div class="row">
+                    <div class="col-md-@colWidth">
+                        <div class="featuredCarDiv">
+                            <a href=@Url.Action("Details", "Home", new { id = car.CarId })>
+                                <img class="resize" src="@car.ImageURL" />
+                                <div class="featuredCarDetails">@car.Year.Year @car.Make @car.Model</div>
+                                <div class="featuredCarDetails">$@car.Price</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-@colWidth">
+                    <div class="featuredCarDiv">
+                        <a href=@Url.Action("Details", "Home", new { id = car.CarId })>
+                            <img class="resize" src="@car.ImageURL" />
+                            <div class="featuredCarDetails">@car.Year.Year @car.Make @car.Model</div>
+                            <div class="featuredCarDetails">$@car.Price</div>
+                        </a>
+                    </div>
+                </div>
+            }
+            colCounter++;
+        }
+    }
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
